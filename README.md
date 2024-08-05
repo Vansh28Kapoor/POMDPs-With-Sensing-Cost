@@ -1,20 +1,23 @@
-# State sensing for blind MDP agents
-A Partially Observable MDP is a generalization of the MDP setting where the system dynamics are determined
-by an MDP, but the agent cannot directly observe the underlying state. In this setting, the agent is aware of
-its initial state but is unaware of their exact state after taking any action, except when it pays a fixed cost
-K, and the state is revealed to the agent. An action where the agent does not query its state is called a blind
-action, and the agent is said to be in a blind state. We apply an additional constraint that the agent can
-take at most r blind actions, i.e., after r consecutive blind actions, the agent is forced to pay price K and query
-its state. We must find an efficient algorithm to evaluate the optimal policy for the agent in this setting.
+# MDP Planning with State Sensing Costs
+
+In many practical sequential decision-making problems, tracking the state of the environment incurs a sensing/communication/computation cost. In these settings, the agent's interaction with its environment includes the additional component of deciding *when* to sense the state, in a manner that balances the value associated with optimal (state-specific) actions and the cost of sensing. We pose this problem as a classical discounted cost MDP with an expanded (countably infinite) state space. While computing the optimal policy for this MDP is intractable in general, we bound the sub-optimality gap associated with optimal policies in a restricted class, where the number of consecutive non-sensing (a.k.a., blind) actions is capped. We also design a computationally efficient heuristic algorithm based on policy improvement, which in practice performs close to the optimal policy.
 
 
-[Report](Report.pdf)
+This repository implements all the results mentioned in the paper and numerically evaluates all our results via a case study based on inventory management.
+***
 
-# generate_mdp.py
+1. Heuristic Policy: ``Heuristic.py`` 
+2. Theorem 2 (Sensing Cost Threshold): ``0Thm.py``
+3. Theorem 3 (One-Step Optimality): ``1Thm.py``
+4. Theorem 4 & 5 (Optimality Condition & Sub-optimality Gap): ``Thm_verif.py``
+5. Case Study on Inventory Management: ``Case_Study.py`` & ``Inventory.py``
+
+
+### generate_mdp.py
 
 The `generate_mdp.py` script is used to generate a Markov Decision Process (MDP) based on a given scenario. The MDP is constructed considering the history of actions taken up to a specified window length, without sensing the state.
 
-## Usage
+#### Usage
 
 To run the script, use the following command:
 
@@ -22,7 +25,7 @@ To run the script, use the following command:
 python generate_mdp.py [arguments]
 ```
 
-## Arguments
+#### Arguments
 
 - `--K`: (Optional) A floating-point value representing the cost to sense the state. Default is `0.1`.
     ```
@@ -44,7 +47,7 @@ python generate_mdp.py [arguments]
     python generate_mdp.py --seed -1 --mdp_params /path/to/mdp_params.txt
     ```
 
-## MDP Parameters File Format
+#### MDP Parameters File Format
 
 If you're using the `--mdp_params` argument, ensure the file has the following format:
 
@@ -66,15 +69,15 @@ Tb: [[0.3, 0.7], [0.9, 0.1]]
 
 ---
 
-# MDP Planner README
+### MDP Planner README
 
 ---
 
-## Introduction:
+#### Introduction:
 
 `planner.py` is a script designed to compute and evaluate policies for a specified Markov Decision Process (MDP).
 
-## Usage:
+#### Usage:
 
 To use the planner, run:
 
@@ -82,7 +85,7 @@ To use the planner, run:
 python planner.py --mdp <path_to_mdp_file> [options]
 ```
 
-## Command-line Arguments:
+#### Command-line Arguments:
 
 - `--mdp`: Specifies the path to the MDP file. This argument is **required**.
 
@@ -94,7 +97,7 @@ python planner.py --mdp <path_to_mdp_file> [options]
 
 - `--print_all`: Use this flag to print the policy for all states, not just the primary ones. (Optional)
 
-## Example:
+#### Example:
 
 To compute and print the optimal policy for a specific MDP:
 
