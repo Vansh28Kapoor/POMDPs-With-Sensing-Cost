@@ -2,8 +2,6 @@ import numpy as np
 from copy import deepcopy
 
 # C is s x a, T[0] is T for action 0, V is optimal
-
-
 def V_blind(B, C, T, V, gamma):
     Q = np.zeros(C.shape)
     for i in range(T.shape[0]):  # no. of actions
@@ -97,7 +95,7 @@ def Solve(val, bel, steps, gamma):
 T = np.array([
     [[0.7, 0.3], [0.2, 0.8]],
     [[0.3, 0.7], [0.9, 0.1]]
-])
+    ])
 
 C = np.array([
     [0.25, 0.75],
@@ -105,5 +103,5 @@ C = np.array([
 
 V = np.array([0.56818182, 0.79545455])
 
-if __name__ == "__main__":
+if __name__ == "__main__": 
     print(Heuristic(deepcopy(C), deepcopy(T), deepcopy(V), 0.5, 0.5, max=500))
