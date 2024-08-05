@@ -27,8 +27,7 @@ def Heuristic(C, T, V, gamma, k, max=100):
         belief[state] = 1
 
         act, value = V_blind(belief, C, T, V, gamma)
-        print(f'Belief: {belief}, V_blind: {
-              V_blind(belief, C, T, V, gamma)}, Compare: {belief@V}')
+        print(f'Belief: {belief}, V_blind: {V_blind(belief, C, T, V, gamma)}, Compare: {belief@V}')
         diff = value-(belief@V)
 
         while (diff < k and time <= max):
