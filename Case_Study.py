@@ -41,7 +41,8 @@ if __name__ == "__main__":
 
     for action in actions:
         print(T[action], C[action])
-    mdp = generate_pomdp(windowLength, T, C, 0.8, actions, numHeadStates, 0.25)
+    mdp = generate_pomdp(windowLength, T, C, 0.8, actions,
+                         numHeadStates, 0.25)  # Change Sensing Cost
 
     # policy, value_function  = brute_force_search(states, actions+sensingActions, mdp, 0.9, windowLength)
     # print(mdp)
