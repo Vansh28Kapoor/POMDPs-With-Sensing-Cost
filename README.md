@@ -7,12 +7,63 @@ This repository implements all the results mentioned in the paper and numericall
 ***
 
 1. Heuristic Policy: ``Heuristic.py`` 
-2. Theorem 2 (Sensing Cost Threshold): ``0Thm.py``
-3. Theorem 3 (One-Step Optimality): ``1Thm.py``
+2. Theorem 2 (Sensing Cost Threshold): ``Sensing_Threshold.py``
+3. Theorem 3 (One-Step Optimality): ``OneStep_Opt.py``
 4. Theorem 4 & 5 (Optimality Condition & Sub-optimality Gap): ``Thm_verif.py``
 5. Case Study on Inventory Management: ``Case_Study.py`` & ``Inventory.py``
 
+## `Heuristic.py`
 
+`Heuristic.py` implements the heuristic algorithm with the following variables:
+
+1. **`T`** (Transition Probability Matrix): This is a $|A| \times |S| \times |S|$ array, where each slice along the first dimension represents the transition matrix for a specific action. For instance, `T[a, s1, s2]` denotes the probability of transitioning from state `s1` to state `s2` by playing action `a`.
+2. **`C`** (Cost Matrix): This is a $|S| \times |A|$ array, where each column represents the cost incurred for each action across the states.
+3. **`V`** (Optimal Value Function without Sensing Cost): This is a $|S|$ array denoting the optimal value function for each state.
+4. **`gamma`** (Discounting Factor $\alpha$): The discounting factor $\alpha$ of the MDP.
+5. **`k`** (Sensing Cost $k$): The state sensing cost $k$ for the MDP.
+
+The function `Heuristic` returns a tuple containing:
+
+1. **Value Function**: The value function corresponding to the heuristic policy for each state.
+2. **Policy**: A list where each entry is a string representing the sequence of actions to be taken for each root state. The `max` parameter of `Heuristic` limits the maximum length of these strings to handle cases where no sensing is applied starting from the root state.
+
+To implement the heuristic algorithm, execute `Heuristic.py` with the variables set to the desired MDP parameters as mentioned above (edit the file accordingly).
+
+## `Sensing_Threshold.py`
+
+`Sensing_Threshold.py` evaluates the sensing cost threshold algorithm using the following variables:
+
+1. **`actions`**: A list of actions in the Baseline MDP.
+2. **`numHeadStates`** ($|S|$): The number of root states in the MDP.
+3. **`gamma`** (Discounting Factor $\alpha$): The discount factor used in the MDP.
+4. **`T`** (Transition Probability Matrix): A dictionary where the keys are actions, and the values are arrays representing the transition matrix for each action.
+5. **`C`** (Cost Matrix): A dictionary where the keys are actions, and the values are arrays representing the cost incurred for each action across the states.
+
+For instance, the values for a 2-state, 2-action MDP are:
+
+```python
+actions = ["R", "B"]
+
+T = {
+    "R": np.array([[0.7, 0.3], [0.2, 0.8]]),
+    "B": np.array([[0.3, 0.7], [0.9, 0.1]])
+}
+
+C = {
+    "R": np.array([0.25, 0.75]),
+    "B": np.array([1, 0.5])
+}
+```
+To evaluate the sensing cost threshold, execute `Sensing_Threshold.py` with the variables set to the desired MDP parameters as mentioned above (edit the file accordingly). The script will print the sensing cost threshold in the format: `Sensing Cost Threshold: <value>`.
+
+## OneStep_Opt.py
+
+
+**Note:** The below helper files use the **Ratio of Sensing Cost to Discounting Factor** instead of **Sensing Cost** and hence to run the files for a sensing cost $x$, use the formula:
+
+```python
+K = x / gamma
+```
 ### generate_mdp.py
 
 The `generate_mdp.py` script is used to generate a Markov Decision Process (MDP) based on a given scenario. The MDP is constructed considering the history of actions taken up to a specified window length, without sensing the state.

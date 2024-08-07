@@ -17,7 +17,7 @@ def Heuristic(C, T, V, gamma, k, max=100):
     bel = []
     steps = []
     for state in range(C.shape[0]):
-        print(state)
+        # print(state)
         action_state = ''
         cum_val = 0
         time = 0
@@ -25,7 +25,7 @@ def Heuristic(C, T, V, gamma, k, max=100):
         belief[state] = 1
 
         act, value = V_blind(belief, C, T, V, gamma)
-        print(f'Belief: {belief}, V_blind: {V_blind(belief, C, T, V, gamma)}, Compare: {belief@V}')
+        # print(f'Belief: {belief}, V_blind: {V_blind(belief, C, T, V, gamma)}, Compare: {belief@V}')
         diff = value-(belief@V)
 
         while (diff < k and time <= max):
@@ -103,5 +103,9 @@ C = np.array([
 
 V = np.array([0.56818182, 0.79545455])
 
+gamma = 0.5
+
+k = 0.25
+
 if __name__ == "__main__": 
-    print(Heuristic(deepcopy(C), deepcopy(T), deepcopy(V), 0.5, 0.5, max=500))
+    print(Heuristic(deepcopy(C), deepcopy(T), deepcopy(V), gamma, k/gamma, max=500))
