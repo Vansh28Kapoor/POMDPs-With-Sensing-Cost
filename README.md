@@ -56,10 +56,19 @@ C = {
 ```
 To evaluate the sensing cost threshold, execute `Sensing_Threshold.py` with the variables set to the desired MDP parameters as mentioned above (edit the file accordingly). The script will print the sensing cost threshold in the format: `Sensing Cost Threshold: <value>`.
 
-## OneStep_Opt.py
+## `OneStep_Opt.py`
 
+`OneStep_Opt.py` verifies the One-Step Optimality condition for each of the root states and returns an array of boolean values for each state. It utilizes all the variables: `actions`, `numHeadStates`, `gamma`, `T`, and `C` exactly as described for **`Sensing_Threshold.py`**, along with:
 
-**Note:** The below helper files use the **Ratio of Sensing Cost to Discounting Factor** instead of **Sensing Cost** and hence to run the files for a sensing cost $x$, use the formula:
+1. **`windowLength`** (Truncated MDP depth $N$): The depth $N$ of the truncated MDP for which the theorem is being applied.
+2. **`sensingcost`** (Sensing Cost $k$): The state sensing cost $k$ for the MDP.
+
+To determine whether Theorem 3 is satisfied, execute `OneStep_Opt.py`. The script will print the output in the following format: <br>
+``Sensing Cost: <k>, Window_len: <N>``<br>
+``LHS_min:`` $[\min_{i \in \mathcal{L}^j_{N+1}}G_{N+1}(j,i) \ \text{for} \ j \in \mathcal{S}]$, ``Constrained Value Fn:`` $[V_{\mathcal{M}_{k,N}}(j) \ \text{for} \ j \in \mathcal{S}]$ <br>
+[<bool(j)> $\ \text{for} \ j \in \mathcal{S}$]
+
+**Note:** The below helper files use the **Ratio of Sensing Cost to Discounting Factor** instead of **Sensing Cost** and hence to run the files for a sensing cost $x$, use the formula: 
 
 ```python
 K = x / gamma
