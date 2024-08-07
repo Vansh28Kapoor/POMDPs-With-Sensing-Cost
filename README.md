@@ -65,7 +65,7 @@ To evaluate the sensing cost threshold, execute `Sensing_Threshold.py` with the 
 
 To determine whether Theorem 3 is satisfied, execute `OneStep_Opt.py`. The script will print the output in the following format: <br>
 ``Sensing Cost: <k>, Window_len: <N>``<br>
-``LHS_min:`` $[\min_{i \in \mathcal{L}^j_{N+1}}G_{N+1}(j,i) \ \text{for} \ j \in \mathcal{S}]$, ``Constrained Value Fn:`` $[V_{\mathcal{M}_{k,N}}(j) \ \text{for} \ j \in \mathcal{S}]$ <br>
+``LHS_min:`` $[min_{i \in \mathcal{L}^j_{N+1}}G_{N+1}(j,i) \ \text{for} \ j \in \mathcal{S}]$, ``Constrained Value Fn:`` $[V_{\mathcal{M}_{k,N}}(j) \ \text{for} \ j \in \mathcal{S}]$ <br>
 [<bool(j)> $\ \text{for} \ j \in \mathcal{S}$]
 
 **Note:** The below helper files use the **Ratio of Sensing Cost to Discounting Factor** instead of **Sensing Cost** and hence to run the files for a sensing cost $x$, use the formula: 
