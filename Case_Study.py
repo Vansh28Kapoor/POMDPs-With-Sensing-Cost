@@ -8,11 +8,10 @@ from Heuristic import Solve, V_blind
 
 if __name__ == "__main__":
     actions = ["0", "1", "2", "3"]
-    sensingActions = [action + "S" for action in actions]
     numHeadStates = 4
-    windowLength = 0
-    states = generate_states(numHeadStates, actions, windowLength)
-    print(f'Window_len = {windowLength}')
+    windowLength = 2
+    gamma = 0.8
+    sensingcost = 0.2 # Change Sensing Cost
     T = {
         "0": np.array([[1., 0., 0., 0.],
                        [1., 0., 0., 0.],
@@ -39,16 +38,20 @@ if __name__ == "__main__":
         "3": np.array([0.75,  1.25,  1.75,  2.25])
     }
 
-    for action in actions:
-        print(T[action], C[action])
-    mdp = generate_pomdp(windowLength, T, C, 0.8, actions,
-                         numHeadStates, 0.25)  # Change Sensing Cost
+    # for action in actions:
+    #     print(T[action], C[action])
+    sensingActions = [action + "S" for action in actions]
+    states = generate_states(numHeadStates, actions, windowLength)
+    print(f'Window_len = {windowLength}')
+    mdp = generate_pomdp(windowLength, T, C, gamma, actions,
+                         numHeadStates, sensingcost/gamma)  
 
     # policy, value_function  = brute_force_search(states, actions+sensingActions, mdp, 0.9, windowLength)
     # print(mdp)
 
+
     opt_policy, opt_val = brute_force_search(
-        states, actions+sensingActions, mdp, 0.8, windowLength)
+        states, actions+sensingActions, mdp, gamma, windowLength)
     policy = {i: tuple([opt_policy[tuple([i])]]) for i in range(numHeadStates)}
     # print(opt_policy)
     for i in range(numHeadStates):
@@ -57,4 +60,4 @@ if __name__ == "__main__":
 
     for i in range(numHeadStates):
         print(f"state {i}, policy: {policy[i]}, value: {opt_val[tuple([i])]}")
-    print(opt_val.values())
+    # print(opt_val.values())

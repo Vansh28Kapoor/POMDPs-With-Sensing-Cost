@@ -10,7 +10,7 @@ class Inventory():
         self.prod = production_cost
         self.gain = profit
 
-    def Cost_vector(self):
+    def Cost_vector(self): # Returns array: row i => cost of action i 
         Cost = []
         for i in range(self.A):
             C = []
@@ -43,9 +43,9 @@ class Inventory():
                     else:
                         P_state[j, j+i-iterate] += prob
             Probab.append(P_state)
-        return Probab
+        return np.array(Probab)
 
 
 inv = Inventory(inv_capacity=3, actions=4, prob_demand=[
                 0, 0.5, 0.5], holding_cost=0.5, production_cost=1, profit=2)
-print(inv.Cost_vector())
+print(f'Cost Matrix: {inv.Cost_vector()}, Probability Matrix: {inv.Prob()}')

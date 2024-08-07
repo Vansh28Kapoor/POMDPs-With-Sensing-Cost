@@ -66,8 +66,46 @@ To evaluate the sensing cost threshold, execute `Sensing_Threshold.py` with the 
 To determine whether Theorem 3 is satisfied, execute `OneStep_Opt.py`. The script will print the output in the following format: <br>
 ``Sensing Cost: <k>, Window_len: <N>``<br>
 ``LHS_min:`` $[min_{i \in \mathcal{L}^j_{N+1}}G_{N+1}(j,i) \ \text{for} \ j \in \mathcal{S}]$, ``Constrained Value Fn:`` $[V_{\mathcal{M}_{k,N}}(j) \ \text{for} \ j \in \mathcal{S}]$ <br>
-[<bool(j)> $\ \text{for} \ j \in \mathcal{S}$]
+[`<bool(j)>` $\ \text{for} \ j \in \mathcal{S}$]
 
+
+
+## `Thm_verif.py`
+
+`Thm_verif.py` evaluates the bound on the sub-optimality gap between the optimal value function for $\mathcal{M}_{k}$ and that of the truncated MDP $\mathcal{M}_{k,N}$, and also verifies the optimality for the optimal policy of the truncated MDP. It utilizes exactly the same variables as `OneStep_Opt.py`: `actions`, `numHeadStates`, `gamma`, `T`, `C`, `windowLength`, and `sensingcost`. The script will print the output in the following format: <br>
+``Sensing Cost: <k>, Window_len: <N>``<br>
+``Suboptimality Gap: <arr>`` <br>
+``<arr>`` is an array where each element corresponds to the bound on the sub-optimality gap. If ``<arr>`` is an array of zeros, it implies that Theorem 4 (Optimality Theorem) criterion is satisfied. To execute the script, set the variables to the desired MDP parameters as mentioned above and run `Sensing_Threshold.py` (edit the mentioned variables in the file as needed).
+
+## `Inventory.py`
+
+`Inventory.py` evaluates the transition probability matrix and cost matrix based on the following inventory parameters:
+
+1. **`inv_capacity`**: The maximum number of items that can be stored in the inventory.
+2. **`actions`**: The total number of actions (number of items to be produced each month) or the cardinality of the action space.
+3. **`prob_demand`**: A list representing the probability distribution of the demand.
+4. **`holding_cost`**: The inventory-carrying cost per unit leftover at the end of the month.
+5. **`production_cost`**: The production cost per unit of the item.
+6. **`profit`**: The selling price per unit of the item.
+
+
+The script prints the output in the following format: <br>
+``Cost Matrix: <arr1>, Probability Matrix: <arr2>`` <br>
+
+`<arr1>` is $|A| \times |S|$ array where each row represents the cost incurred for each action across the states and `<arr2>` is the usual $|A| \times |S| \times |S|$ array, where each slice along the first dimension represents the transition matrix for a specific action.
+
+
+## `Case_Study.py`
+`Case_Study.py` is used to evaluate the optimal value function and policy for the truncated MDP parameters (Eg: `Inventory.py` parameters). It utilizes exactly the same variables as `OneStep_Opt.py`: `actions`, `numHeadStates`, `gamma`, `T`, `C`, `windowLength`, and `sensingcost`. The script will print the output in the following format: <br>
+`Window_len: <N>` <br>
+⋮ <br>
+`state <i>, policy: <tuple(strings)>, value: <value_fun>` <br>
+⋮ <br>
+
+
+***
+
+The rest of the scripts are helper files used in the above scripts and can be used as a black box. The tutorial below provides more information if needed.
 **Note:** The below helper files use the **Ratio of Sensing Cost to Discounting Factor** instead of **Sensing Cost** and hence to run the files for a sensing cost $x$, use the formula: 
 
 ```python

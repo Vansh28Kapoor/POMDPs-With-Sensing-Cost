@@ -52,12 +52,12 @@ def delta(result, actions, window_length, C, T, V_opt, gamma, numHeadStates, V_h
     max_2 = max(0,np.max(rel_diff[mask])) #2nd maximum value
     max_diff[arg_max] = max_2
     LHS_min_2 = np.array(V_head) - (gamma*np.array(max_diff))
-    print(LHS_min_2, np.array(lst))
+    # print(LHS_min_2, np.array(lst))
     LHS_min_final = np.minimum(np.array(lst) ,LHS_min_2)
 
 
 
-    print(f'LHS_min_Final: {LHS_min_final}, V_opt: {V_opt}, Constrained Value Fn: {V_head}, LHS_min: {lst}, LHS_min_2: {LHS_min_2}' )
+    # print(f'LHS_min_Final: {LHS_min_final}, V_opt: {V_opt}, Constrained Value Fn: {V_head}, LHS_min: {lst}, LHS_min_2: {LHS_min_2}' )
 
     return V_head - LHS_min_final
 
@@ -94,8 +94,8 @@ if __name__ == "__main__":
     # actions = ["R", "B"]
     sensingActions = [action + "S" for action in actions]
     numHeadStates = 4
-    windowLength = 7
-    sensingcost = 0.08 # Sufficient to change sensing cost only here
+    windowLength = 1
+    sensingcost = 0.064 # Sufficient to change sensing cost only here
     gamma = 0.8
     states = generate_states(numHeadStates, actions, windowLength)
     print(f'Sensing Cost: {sensingcost}, Win_len: {windowLength}')
@@ -152,7 +152,7 @@ if __name__ == "__main__":
     V_head = np.zeros(numHeadStates)
     V_opt = np.zeros(numHeadStates)
     mdp = generate_pomdp(windowLength, T, deepcopy(
-        C), gamma, actions, numHeadStates, sensingcost)
+        C), gamma, actions, numHeadStates, sensingcost/gamma)
     zero_mdp = generate_pomdp(0, T, deepcopy(
         C), gamma, actions, numHeadStates, 0)
     # policy, value_function  = brute_force_search(states, actions+sensingActions, mdp, 0.9, windowLength)
@@ -169,8 +169,8 @@ if __name__ == "__main__":
 
     result = Z(windowLength, T, deepcopy(C), numHeadStates, gamma)
     # print(V_head)
-    print(delta(result, actions, windowLength, deepcopy(
-        C), T, V_opt, gamma, numHeadStates, V_head))
+    print(f"Suboptimality Gap: {delta(result, actions, windowLength, deepcopy(
+        C), T, V_opt, gamma, numHeadStates, V_head)}")
 
     # for i in range(numHeadStates):
     #     while (policy[i][-1][-1] != 'S'):
