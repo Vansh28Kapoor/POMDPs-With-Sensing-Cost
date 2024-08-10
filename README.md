@@ -72,7 +72,7 @@ To determine whether Theorem 3 is satisfied, execute `OneStep_Opt.py`. The scrip
 
 ## `Thm_verif.py`
 
-`Thm_verif.py` evaluates the bound on the sub-optimality gap between the optimal value function for $\mathcal{M}_{k}$ and that of the truncated MDP $\mathcal{M}_{k,N}$, and also verifies the optimality for the optimal policy of the truncated MDP. It utilizes exactly the same variables as `OneStep_Opt.py`: `actions`, `numHeadStates`, `gamma`, `T`, `C`, `windowLength`, and `sensingcost`. The script will print the output in the following format: <br>
+Thm_verif.py evaluates the bound on the sub-optimality gap between the optimal value function for $𝓜_{k}$ and that of the truncated MDP $𝓜_{k,N}$, and also verifies the optimality of the optimal policy for the truncated MDP. It utilizes exactly the same variables as `OneStep_Opt.py`: `actions`, `numHeadStates`, `gamma`, `T`, `C`, `windowLength`, and `sensingcost`. The script will print the output in the following format: <br>
 ``Sensing Cost: <k>, Window_len: <N>``<br>
 ``Suboptimality Gap: <arr>`` <br>
 ``<arr>`` is an array where each element corresponds to the bound on the sub-optimality gap. If ``<arr>`` is an array of zeros, it implies that Theorem 4 (Optimality Theorem) criterion is satisfied. To execute the script, set the variables to the desired MDP parameters as mentioned above and run `Sensing_Threshold.py` (edit the mentioned variables in the file as needed).
