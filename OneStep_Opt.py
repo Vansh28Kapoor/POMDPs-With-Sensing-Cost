@@ -51,7 +51,7 @@ def thm1(sensingcost, result, actions, window_length, C, T, gamma, numHeadStates
         lst[HeadState] = head_val
 
     print(f'LHS_min: {lst}, Constrained Value Fn: {V_head}')
-    string_val = ['Stop', 'Continue']
+    # string_val = ['Stop', 'Continue']
     return lst >= V_head
 
 
