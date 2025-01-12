@@ -10,7 +10,7 @@ def V_blind(B, C, T, V, gamma):
     Final = B@Q
     return np.argmin(Final), np.min(Final)
 
-
+## ATM Heuristic
 def Heuristic(C, T, V, gamma, k, max=100):
     action = []
     val = []
