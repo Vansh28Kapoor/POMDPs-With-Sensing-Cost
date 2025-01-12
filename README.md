@@ -8,8 +8,8 @@ This repository implements all the results mentioned in the paper and numericall
 
 1. Heuristic Policy: ``Heuristic.py`` 
 2. Theorem 2 (Sensing Cost Threshold): ``Sensing_Threshold.py``
-3. Theorem 3 (One-Step Optimality): ``OneStep_Opt.py``
-4. Theorem 4 & 5 (Optimality Condition & Sub-optimality Gap): ``Thm_verif.py``
+3. Lemma 3 (One-Step Optimality): ``OneStep_Opt.py``
+4. Theorem 4 (Optimality Condition & Sub-optimality Gap): ``Thm_verif.py``
 5. Case Study on Inventory Management: ``Case_Study.py`` & ``Inventory.py``
 
 ## `Heuristic.py`
@@ -63,7 +63,7 @@ To evaluate the sensing cost threshold, execute `Sensing_Threshold.py` with the 
 1. **`windowLength`** (Truncated MDP depth $N$): The depth $N$ of the truncated MDP for which the theorem is being applied.
 2. **`sensingcost`** (Sensing Cost $k$): The state sensing cost $k$ for the MDP.
 
-To determine whether Theorem 3 is satisfied, execute `OneStep_Opt.py`. The script will print the output in the following format: <br>
+To determine whether Lemma 3 is satisfied, execute `OneStep_Opt.py`. The script will print the output in the following format: <br>
 ``Sensing Cost: <k>, Window_len: <N>``<br>
 ``LHS_min:`` $[min_{i \in \mathcal{L}^j_{N+1}}G_{N+1}(j,i) \ \text{for} \ j \in \mathcal{S}]$, ``Constrained Value Fn:`` $[V_{\mathcal{M}_{k,N}}(j) \ \text{for} \ j \in \mathcal{S}]$ <br>
 [`<bool(j)>` $\ \text{for} \ j \in \mathcal{S}$]
@@ -104,109 +104,3 @@ The script prints the output in the following format: <br>
 
 
 ***
-
-The rest of the scripts are helper files used in the above scripts and can be used as a black box. The tutorial below provides more information if needed.
-**Note:** The below helper files use the **Ratio of Sensing Cost to Discounting Factor** instead of **Sensing Cost** and hence to run the files for a sensing cost $x$, use the formula: 
-
-```python
-K = x / gamma
-```
-### generate_mdp.py
-
-The `generate_mdp.py` script is used to generate a Markov Decision Process (MDP) based on a given scenario. The MDP is constructed considering the history of actions taken up to a specified window length, without sensing the state.
-
-#### Usage
-
-To run the script, use the following command:
-
-```
-python generate_mdp.py [arguments]
-```
-
-#### Arguments
-
-- `--K`: (Optional) A floating-point value representing the cost to sense the state. Default is `0.1`.
-    ```
-    python generate_mdp.py --K 0.5
-    ```
-
-- `--window_len`: (Optional) An integer representing the maximum number of steps the agent can take without sensing. Default is `1`.
-    ```
-    python generate_mdp.py --window_len 3
-    ```
-
-- `--seed`: (Optional) An integer used to seed the random number generator for reproducibility. Default is `0`. If set to `-1`, the MDP parameters will be initialized from the specified `mdp_params` file.
-    ```
-    python generate_mdp.py --seed 42
-    ```
-
-- `--mdp_params`: (Optional) A string representing the path to a text file which contains the MDP parameters (`Cr`, `Cb`, `Tr`, `Tb`). This is used when the `seed` is set to `-1`.
-    ```
-    python generate_mdp.py --seed -1 --mdp_params /path/to/mdp_params.txt
-    ```
-
-#### MDP Parameters File Format
-
-If you're using the `--mdp_params` argument, ensure the file has the following format:
-
-```
-Cr: [value1, value2]
-Cb: [value1, value2]
-Tr: [[value1, value2], [value3, value4]]
-Tb: [[value1, value2], [value3, value4]]
-```
-
-For example:
-
-```
-Cr: [0.5, 1.5]
-Cb: [1.5, 0.5]
-Tr: [[0.7, 0.3], [0.2, 0.8]]
-Tb: [[0.3, 0.7], [0.9, 0.1]]
-```
-
----
-
-### MDP Planner README
-
----
-
-#### Introduction:
-
-`planner.py` is a script designed to compute and evaluate policies for a specified Markov Decision Process (MDP).
-
-#### Usage:
-
-To use the planner, run:
-
-```
-python planner.py --mdp <path_to_mdp_file> [options]
-```
-
-#### Command-line Arguments:
-
-- `--mdp`: Specifies the path to the MDP file. This argument is **required**.
-
-- `--policy`: Path to an existing policy file that will be evaluated. (Optional)
-
-- `--optimal`: Use this flag if you want to compute the optimal policy. (Optional)
-
-- `--window_len`: Specifies the window length for the MDP. Default is `-1`. (Optional)
-
-- `--print_all`: Use this flag to print the policy for all states, not just the primary ones. (Optional)
-
-#### Example:
-
-To compute and print the optimal policy for a specific MDP:
-
-```
-python planner.py --mdp /path/to/mdp.txt --optimal
-```
-
-To evaluate an existing policy:
-
-```
-python planner.py --mdp /path/to/mdp.txt --policy /path/to/policy.txt
-```
-
----
