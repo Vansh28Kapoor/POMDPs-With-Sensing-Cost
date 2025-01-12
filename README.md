@@ -6,29 +6,43 @@ In many practical sequential decision-making problems, tracking the state of the
 This repository implements all the results mentioned in the paper and numerically evaluates all our results via a case study based on inventory management.
 ***
 
-1. Heuristic Policy: ``Heuristic.py`` 
+1. Our Heuristic Policy: ``new_Heuristic.py`` 
 2. Theorem 2 (Sensing Cost Threshold): ``Sensing_Threshold.py``
 3. Lemma 3 (One-Step Optimality): ``OneStep_Opt.py``
 4. Theorem 4 (Optimality Condition & Sub-optimality Gap): ``Thm_verif.py``
-5. Case Study on Inventory Management: ``Case_Study.py`` & ``Inventory.py``
+5. Benchmarking on Taxi: ``Taxi`` & ``Benchmarking POMDP Algorithms``
+6. Benchmarking on Frozen Lake: ``Frozen_lake.py``, ``Benchmarking POMDP Algorithms`` & ``Simulations.py``
+7. Case Study on Inventory Management: ``Case_Study.py`` & ``Inventory.py``
 
-## `Heuristic.py`
+## `new_Heuristic.py`
 
-`Heuristic.py` implements the heuristic algorithm with the following variables:
+`new_Heuristic.py` implements the heuristic algorithm with the following variables:
+1. **`pi`** (Initial Policy pi)
+2. **`T`** (Transition Probability Matrix): This is a $|A| \times |S| \times |S|$ array, where each slice along the first dimension represents the transition matrix for a specific action. For instance, `T[a, s1, s2]` denotes the probability of transitioning from state `s1` to state `s2` by playing action `a`.
+3. **`C`** (Cost Matrix): This is a $|S| \times |A|$ array, where each column represents the cost incurred for each action across the states.
+4. **`V`** (Optimal Value Function without Sensing Cost): This is a $|S|$ array denoting the optimal value function for each state.
+5. **`gamma`** (Discounting Factor $\alpha$): The discounting factor $\alpha$ of the MDP.
+6. **`k`** (Sensing Cost $k$): The state sensing cost $k$ for the MDP.
 
+The function `Improved_Heuristic` returns a tuple containing:
+
+1. **Policy**: A list where each entry is a string representing the sequence of actions to be taken for each root state. The `max` parameter (maxsteps) of `Improved_Heuristic` limits the maximum length of these strings to handle cases where no sensing is applied starting from the root state.
+2. **Value Function**: The value function corresponding to the heuristic policy for each root state.
+
+To implement the ATM heuristic algorithm, execute `new_Heuristic.py`/`Heuristic.py` with the variables set to the desired MDP parameters as mentioned above (edit the file accordingly).
+The algorithm is implemented with the following variables:
 1. **`T`** (Transition Probability Matrix): This is a $|A| \times |S| \times |S|$ array, where each slice along the first dimension represents the transition matrix for a specific action. For instance, `T[a, s1, s2]` denotes the probability of transitioning from state `s1` to state `s2` by playing action `a`.
 2. **`C`** (Cost Matrix): This is a $|S| \times |A|$ array, where each column represents the cost incurred for each action across the states.
 3. **`V`** (Optimal Value Function without Sensing Cost): This is a $|S|$ array denoting the optimal value function for each state.
 4. **`gamma`** (Discounting Factor $\alpha$): The discounting factor $\alpha$ of the MDP.
 5. **`k`** (Sensing Cost $k$): The state sensing cost $k$ for the MDP.
 
-The function `Heuristic` returns a tuple containing:
+The function `Heuristic` (ATM Heuristic) returns a tuple containing:
 
 1. **Value Function**: The value function corresponding to the heuristic policy for each state.
 2. **Policy**: A list where each entry is a string representing the sequence of actions to be taken for each root state. The `max` parameter of `Heuristic` limits the maximum length of these strings to handle cases where no sensing is applied starting from the root state.
 
-To implement the heuristic algorithm, execute `Heuristic.py` with the variables set to the desired MDP parameters as mentioned above (edit the file accordingly).
-
+To implement the heuristic algorithm, execute `new_Heuristic.py`/`Heuristic.py` with the variables set to the desired MDP parameters as mentioned above (edit the file accordingly).
 ## `Sensing_Threshold.py`
 
 `Sensing_Threshold.py` evaluates the sensing cost threshold algorithm using the following variables:
@@ -76,6 +90,29 @@ Thm_verif.py evaluates the bound on the sub-optimality gap between the optimal v
 ``Sensing Cost: <k>, Window_len: <N>``<br>
 ``Suboptimality Gap: <arr>`` <br>
 ``<arr>`` is an array where each element corresponds to the bound on the sub-optimality gap. If ``<arr>`` is an array of zeros, it implies that Theorem 4 (Optimality Theorem) criterion is satisfied. To execute the script, set the variables to the desired MDP parameters as mentioned above and run `Sensing_Threshold.py` (edit the mentioned variables in the file as needed).
+
+## ``Taxi``
+1. **`Taxi.py`**  
+   - Evaluates the transition probability matrix and cost matrix for the Stochastic Taxi task and saves the results in `Taxi_params.npz`.
+   - Stores the optimal policy and the value function for the for base MDP in `Taxi.pkl`.  
+
+2. **`Taxi_Simulations.py`**  
+   - Compares the performance of policies derived from various POMDP Algorithms (implemented in the `Benchmarking POMDP Algorithms` module) for the Stochastic Taxi task.
+
+## `Frozen_lake.py` & `Simulations.py`
+1. Similar to `Taxi.py`, it evaluates the transition probability matrix and cost matrix for the Frozen Lake task and stores the optimal policy and value function for the corresponding base MDP.
+2. Similar to `Taxi_Simulations.py`, it compares the performance of policies derived from various POMDP algorithms (implemented in the `Benchmarking POMDP Algorithms` module) for the Frozen Lake task.
+
+## ``Benchmarking POMDP Algorithms``:
+1. **`FIB.jl`** & **`SARSOP.jl`**  
+   - Implement the **POMDP formulation** for the Frozen Lake task using appropriate environment parameters.  
+   - Generate policies corresponding to:  
+     - **FIB** (Fast Informed Bound)  
+     - **SARSOP**  
+
+2. **`SARSOP_Taxi.jl`**  
+   - Extends the **SARSOP algorithm** to the Stochastic Taxi task.  
+   - Outputs the corresponding SARSOP policy for the given environment.
 
 ## `Inventory.py`
 
