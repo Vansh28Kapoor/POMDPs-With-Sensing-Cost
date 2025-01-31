@@ -6,7 +6,7 @@ In many practical sequential decision-making problems, tracking the state of the
 This repository implements all the results mentioned in the paper and numerically evaluates all our results via a case study based on inventory management.
 ***
 
-1. Our Heuristic Policy: ``new_Heuristic.py`` 
+1. SPI (Selective Policy Improvement) Policy: ``new_Heuristic.py`` 
 2. Theorem 2 (Sensing Cost Threshold): ``Sensing_Threshold.py``
 3. Lemma 3 (One-Step Optimality): ``OneStep_Opt.py``
 4. Theorem 4 (Optimality Condition & Sub-optimality Gap): ``Thm_verif.py``
