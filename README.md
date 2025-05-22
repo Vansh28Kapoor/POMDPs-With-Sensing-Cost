@@ -46,13 +46,16 @@ To implement the SPI heuristic algorithm, execute `new_Heuristic.py`/`Heuristic.
 
 ## `Sepsis.py`
 
-`Sepsis.py` is very similar to `new_Heuristic.py` and adapts the SPI and ATM heuristic algorithms to MDPs with large action spaces—specifically, when the number of actions is greater than or equal to 10 (i.e., $|A| \geq 10$). To avoid ambiguity in action sequence representation, the policy for each root state is represented as a list of actions, and the overall policy is a list of such lists. Similar to `new_Heuristic.py`, it implements the SPI algorithm, taking as input `pi`, `T`, `C`, `V`, `gamma`, and `k`, and returns the **Value Function** and **Policy**, with the key difference that the initial policy `pi` and the output **Policy** are represented as lists of action sequences (lists of lists) to support larger action spaces.
+`Sepsis.py` is very similar to `new_Heuristic.py` and adapts the SPI and ATM heuristic algorithms to MDPs with large action spaces—specifically, when the number of actions is greater than or equal to 10 (i.e., $|A| \geq 10$). To avoid ambiguity in action sequence representation, the policy for each root state is represented as a list of actions, and the overall policy is a list of such lists. Similar to `new_Heuristic.py`, it implements the SPI algorithm, taking as input `pi`, `T`, `C`, `V`, `gamma`, and `k`, and returns the value function and output policy, with the key difference that the initial policy `pi` and the output policy are represented as lists of action sequences (lists of lists) to support larger action spaces.
 
 The file runs the SPI/ATM algorithms on the [ICU-Sepsis environment](https://arxiv.org/abs/2406.05646), using:
 
 - `initialStateDistribution.csv`: Initial state distribution.
 - `transitionFunction.csv`: Transition dynamics.
 - `rewardFunction.csv`: Cost/reward structure.
+
+
+The script `Sepsis_generator.py` assists in extracting `C`, `T`, and `initial_state_array`, along with the optimal policy and value function for the baseline ICU-Sepsis MDP, based on the specified parameters. These are saved to `Sepsis_params.npz` and `Sepsis.pkl`, respectively.
 
 ## `Sensing_Threshold.py`
 
@@ -123,7 +126,11 @@ Thm_verif.py evaluates the bound on the sub-optimality gap between the optimal v
 
 2. **`SARSOP_Taxi.jl`**  
    - Extends the **SARSOP algorithm** to the Stochastic Taxi task.  
-   - Outputs the corresponding SARSOP policy for the given environment.
+   - Outputs the corresponding SARSOP policy for the given benchmark environment.
+
+3. **`SARSOP_Sepsis.jl`**  
+   - Extends the **SARSOP algorithm** to the ICU-Sepsis benchmark.  
+   - Outputs the corresponding SARSOP policy for the given benchmark environment.
 
 ## `Inventory.py`
 
