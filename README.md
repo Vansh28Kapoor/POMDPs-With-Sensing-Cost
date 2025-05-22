@@ -6,7 +6,7 @@ In many practical sequential decision-making problems, tracking the state of the
 This repository implements all the results mentioned in the paper and numerically evaluates all our results via a case study based on inventory management.
 ***
 
-1. Our Heuristic Policy: ``new_Heuristic.py`` 
+1. SPI (Selective Policy Improvement) Policy: ``new_Heuristic.py`` 
 2. Theorem 2 (Sensing Cost Threshold): ``Sensing_Threshold.py``
 3. Lemma 3 (One-Step Optimality): ``OneStep_Opt.py``
 4. Theorem 4 (Optimality Condition & Sub-optimality Gap): ``Thm_verif.py``
@@ -16,15 +16,15 @@ This repository implements all the results mentioned in the paper and numericall
 
 ## `new_Heuristic.py`
 
-`new_Heuristic.py` implements the heuristic algorithm with the following variables:
-1. **`pi`** (Initial Policy pi)
+`new_Heuristic.py` implements SPI with the following variables:
+1. **`pi`** (Initial Policy pi): The Initial Policy is a list of strings where each entry represents the sequence of actions for each root state.
 2. **`T`** (Transition Probability Matrix): This is a $|A| \times |S| \times |S|$ array, where each slice along the first dimension represents the transition matrix for a specific action. For instance, `T[a, s1, s2]` denotes the probability of transitioning from state `s1` to state `s2` by playing action `a`.
 3. **`C`** (Cost Matrix): This is a $|S| \times |A|$ array, where each column represents the cost incurred for each action across the states.
 4. **`V`** (Optimal Value Function without Sensing Cost): This is a $|S|$ array denoting the optimal value function for each state.
 5. **`gamma`** (Discounting Factor $\alpha$): The discounting factor $\alpha$ of the MDP.
 6. **`k`** (Sensing Cost $k$): The state sensing cost $k$ for the MDP.
 
-The function `Improved_Heuristic` returns a tuple containing:
+The function `Improved_Heuristic` (SPI) returns a tuple containing:
 
 1. **Policy**: A list where each entry is a string representing the sequence of actions to be taken for each root state. The `max` parameter (maxsteps) of `Improved_Heuristic` limits the maximum length of these strings to handle cases where no sensing is applied starting from the root state.
 2. **Value Function**: The value function corresponding to the heuristic policy for each root state.
@@ -42,7 +42,21 @@ The function `Heuristic` (ATM Heuristic) returns a tuple containing:
 1. **Value Function**: The value function corresponding to the heuristic policy for each state.
 2. **Policy**: A list where each entry is a string representing the sequence of actions to be taken for each root state. The `max` parameter of `Heuristic` limits the maximum length of these strings to handle cases where no sensing is applied starting from the root state.
 
-To implement the heuristic algorithm, execute `new_Heuristic.py`/`Heuristic.py` with the variables set to the desired MDP parameters as mentioned above (edit the file accordingly).
+To implement the SPI heuristic algorithm, execute `new_Heuristic.py`/`Heuristic.py` with the variables set to the desired MDP parameters as mentioned above (edit the file accordingly).
+
+## `Sepsis.py`
+
+`Sepsis.py` is very similar to `new_Heuristic.py` and adapts the SPI and ATM heuristic algorithms to MDPs with large action spaces—specifically, when the number of actions is greater than or equal to 10 (i.e., $|A| \geq 10$). To avoid ambiguity in action sequence representation, the policy for each root state is represented as a list of actions, and the overall policy is a list of such lists. Similar to `new_Heuristic.py`, it implements the SPI algorithm, taking as input `pi`, `T`, `C`, `V`, `gamma`, and `k`, and returns the value function and output policy, with the key difference that the initial policy `pi` and the output policy are represented as lists of action sequences (lists of lists) to support larger action spaces.
+
+The file runs the SPI/ATM algorithms on the [ICU-Sepsis environment](https://arxiv.org/abs/2406.05646), using:
+
+- `initialStateDistribution.csv`: Initial state distribution.
+- `transitionFunction.csv`: Transition dynamics.
+- `rewardFunction.csv`: Cost/reward structure.
+
+
+The script `Sepsis_generator.py` assists in extracting `C`, `T`, and `initial_state_array`, along with the optimal policy and value function for the baseline ICU-Sepsis MDP, based on the specified parameters. These are saved to `Sepsis_params.npz` and `Sepsis.pkl`, respectively.
+
 ## `Sensing_Threshold.py`
 
 `Sensing_Threshold.py` evaluates the sensing cost threshold algorithm using the following variables:
@@ -112,7 +126,11 @@ Thm_verif.py evaluates the bound on the sub-optimality gap between the optimal v
 
 2. **`SARSOP_Taxi.jl`**  
    - Extends the **SARSOP algorithm** to the Stochastic Taxi task.  
-   - Outputs the corresponding SARSOP policy for the given environment.
+   - Outputs the corresponding SARSOP policy for the given benchmark environment.
+
+3. **`SARSOP_Sepsis.jl`**  
+   - Extends the **SARSOP algorithm** to the ICU-Sepsis benchmark.  
+   - Outputs the corresponding SARSOP policy for the given benchmark environment.
 
 ## `Inventory.py`
 

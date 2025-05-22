@@ -167,6 +167,11 @@ for i in 1:num_states
 end
 end_time = time()
 println(end_time - start)
-open(expanduser("~/Downloads/FIB/FIB_defgrid4_001.json"), "w") do file
+
+script_dir = @__DIR__
+file_dir = joinpath(script_dir, "FIB")
+mkpath(file_dir)  # Create FIB directory if it doesn't exist
+file_path = joinpath(file_dir, "FIB_defgrid4_001.json")
+open(file_path, "w") do file
     JSON.print(file, list)
 end

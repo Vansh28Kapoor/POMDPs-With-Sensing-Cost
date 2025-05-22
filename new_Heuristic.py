@@ -337,7 +337,8 @@ gamma = 0.9
 k = 0.005
 
 if __name__ == "__main__":
-    file_path = os.path.expanduser("~/Downloads/FIB/FIB_customgrid4_005.json")
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.join(script_dir, "Benchmarking POMDP Algorithms", "FIB", "FIB_customgrid4_005.json")
     with open(file_path, 'r') as f:
         policy = list(json.load(f))
     start = time()
@@ -348,8 +349,8 @@ if __name__ == "__main__":
     print(FIB)
 
     # Evaluating SARSOP
-    file_path = os.path.expanduser(
-        "~/Downloads/SARSOP/SARSOP_customgrid4_05.json")
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.join(script_dir, "Benchmarking POMDP Algorithms", "SARSOP", "SARSOP_customgrid4_005.json")
     with open(file_path, 'r') as f:
         policy = list(json.load(f))
     start = time()

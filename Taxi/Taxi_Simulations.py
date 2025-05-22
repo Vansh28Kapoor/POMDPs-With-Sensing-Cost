@@ -12,7 +12,7 @@ import time
 
 
 gamma = 0.95
-k = 1
+k = 5
 ter = {500:0.0}
 with open("Taxi.pkl",'rb') as f:
     V_taxi, policy_taxi = pickle.load(f)
@@ -34,9 +34,14 @@ print(end_time-start_time)
 
 
 start_time = time.perf_counter()
-file_path = os.path.expanduser("~/Downloads/SARSOP/SARSOP_taxi_1.json")
+script_dir = os.path.dirname(os.path.abspath(__file__))
+pomdp_root = os.path.dirname(script_dir)
+benchmark_dir = os.path.join(pomdp_root, "Benchmarking POMDP Algorithms") # Path to Benchmarking POMDP Algorithms
+sarsop_dir = os.path.join(benchmark_dir, "SARSOP")
+file_path = os.path.join(sarsop_dir, "SARSOP_taxi_5.json")
 with open(file_path, 'r') as f:
     policy = list(json.load(f))
+    
 SARSOP = Value_policy(policy, C, T, gamma, k, ter = ter)
 end_time = time.perf_counter()
 print(end_time-start_time)

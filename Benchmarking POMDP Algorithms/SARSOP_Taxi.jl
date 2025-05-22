@@ -126,6 +126,10 @@ for i in 1:num_states
     end
 end
 
-open(expanduser("~/Downloads/SARSOP/SARSOP_taxi_1.json"), "w") do file
+script_dir = @__DIR__
+file_dir = joinpath(script_dir, "SARSOP")
+mkpath(file_dir)
+file_path = joinpath(file_dir, "SARSOP_taxi_1.json")
+open(file_path, "w") do file
     JSON.print(file, list)
 end
